@@ -19,10 +19,10 @@ jobs:
           go-version: 1.24.4
 
       - name: Clone PatchPal tool
-        run: git clone --single-branch --branch ci-dev-flow https://github.com/chinmaykubal-one2n/patchpal.git
+        run: git clone --single-branch --branch ci-dev-flow https://github.com/chinmaykubal-one2n/patchpal.git tools/patchpal
 
       - name: Run PatchPal
-        working-directory: ./patchpal
+        working-directory: ./tools/patchpal
         run: go run ./cmd/main.go
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
