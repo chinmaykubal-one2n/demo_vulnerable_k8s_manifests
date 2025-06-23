@@ -1,0 +1,33 @@
+name: Patch Kubernetes YAMLs with PatchPal
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  patch:
+    runs-on: patchpal
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: 1.24.4
+
+      - name: Clone PatchPal tool
+        run: git clone --single-branch --branch ci-dev-flow https://github.com/chinmaykubal-one2n/patchpal.git
+
+      - name: Run PatchPal
+        working-directory: ./patchpal
+        run: go run ./cmd/main.go
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          MODEL: ${{ secrets.MODEL }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_OWNER: ${{ secrets.GH_OWNER }}
+          GITHUB_REPO: ${{ secrets.GH_REPO }}
+          REPO_PATH: ${{ github.workspace }}
