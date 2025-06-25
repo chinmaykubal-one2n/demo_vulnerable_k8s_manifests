@@ -23,11 +23,11 @@ jobs:
 
       - name: Run PatchPal
         working-directory: ./tools/patchpal
-        run: go run ./cmd/main.go
+        run: make run
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           MODEL: ${{ secrets.MODEL }}
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          GITHUB_OWNER: ${{ secrets.GH_OWNER }}
-          GITHUB_REPO: ${{ secrets.GH_REPO }}
-          REPO_PATH: ${{ github.workspace }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}  
+          GITHUB_OWNER: ${{ secrets.GH_OWNER }} 
+          GITHUB_REPO: ${{ secrets.GH_REPO }}   # patchpal tool's repo name
+          REPO_PATH: ${{ github.workspace }}    
