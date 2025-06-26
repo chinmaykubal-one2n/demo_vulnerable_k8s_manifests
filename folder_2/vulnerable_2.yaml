@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: demo-app
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: demo-app
@@ -10,14 +11,13 @@ spec:
     metadata:
       labels:
         app: demo-app
+      annotations:
+        seccomp.security.alpha.kubernetes.io/pod: runtime/default
     spec:
       containers:
       - name: demo-app
-        image: nginx:latest
-        resources:
-          requests:
-            cpu: "100m"
-            memory: "128Mi"
-          limits:
-            cpu: "200m"
-            memory: "256Mi"
+        image: demo-app:v1.0.0
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          readOnlyRootFilesystem: true
