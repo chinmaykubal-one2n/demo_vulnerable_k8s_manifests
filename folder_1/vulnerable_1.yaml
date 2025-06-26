@@ -2,7 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: demo-app
+  namespace: default
+  labels:
+    app: demo-app
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: demo-app
@@ -13,13 +17,10 @@ spec:
     spec:
       containers:
       - name: demo-app
-        image: nginx:latest
-        resources:
-          requests:
-            cpu: "100m"
-            memory: "128Mi"
-          limits:
-            cpu: "200m"
-            memory: "256Mi"
-
-# this is a bug
+        image: nginx:1.25.3
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          readOnlyRootFilesystem: true
+        ports:
+        - containerPort: 80
